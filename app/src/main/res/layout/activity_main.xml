@@ -1,0 +1,76 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:background="#4543a8"
+    android:paddingBottom="16dp"
+    tools:context=".MainActivity">
+
+    <com.github.florent37.materialtextfield.MaterialTextField
+        android:id="@+id/editTextContainer"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:mtf_image="@drawable/pen"
+        app:mtf_labelColor="#000000">
+
+        <EditText
+            android:id="@+id/txtTagContent"
+            android:layout_width="364dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:inputType="textNoSuggestions" />
+
+
+    </com.github.florent37.materialtextfield.MaterialTextField>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="The tag says:"
+        android:id="@+id/informationText"
+        android:textColor="@color/textLightSecondary"
+        android:layout_above="@+id/editTextContainer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="28dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Place the tag to read"
+        android:id="@+id/infoText"
+        android:textColor="@color/textLightPrimary"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="30sp"
+        />
+
+    <HorizontalScrollView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/editTextContainer"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/scrollView"
+
+        >
+        <TextView
+            android:id="@+id/tagInformationView"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_alignBottom="@+id/editTextContainer"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/roundcorner"
+            android:gravity="center"
+            android:text=""
+            android:textSize="27sp" />
+
+    </HorizontalScrollView>
+
+
+</RelativeLayout>
