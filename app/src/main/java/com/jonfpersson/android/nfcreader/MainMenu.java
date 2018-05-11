@@ -1,10 +1,14 @@
 package com.jonfpersson.android.nfcreader;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.nfc.NfcAdapter;
+import android.nfc.NfcManager;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -35,6 +39,24 @@ public class MainMenu extends AppCompatActivity {
         RateThisApp.onCreate(this);
         // If the condition is satisfied, "Rate this app" dialog will be shown
         RateThisApp.showRateDialogIfNeeded(this);
+
+        NfcManager manager = (NfcManager) MainMenu.this.getSystemService(Context.NFC_SERVICE);
+        NfcAdapter adapter = manager.getDefaultAdapter();
+        if (!(adapter != null && adapter.isEnabled())) {
+            // adapter doesnt exists and isnt enabled.
+
+            AlertDialog alertDialog = new AlertDialog.Builder(MainMenu.this).create();
+            alertDialog.setTitle("Please Enable NFC");
+            alertDialog.setMessage("Go to your phones system setting and turn on NFC, or else the application won't work properly");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
+                        }
+                    });
+            alertDialog.show();
+
+        }
 
     }
 

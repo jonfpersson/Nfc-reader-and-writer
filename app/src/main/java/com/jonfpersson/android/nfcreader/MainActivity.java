@@ -23,6 +23,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
@@ -42,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
     TextView infoLabel;
     TextView tagDataText;
     HorizontalScrollView scrollView;
+    CheckBox formatTagBox;
+    boolean boxIsChecked;
+
     int mode;
 
 
@@ -56,16 +61,40 @@ public class MainActivity extends AppCompatActivity {
         mode = getIntent().getIntExtra("messageMode", 0);
 
         if (mode == 1){
+            formatTagBox.setVisibility(View.INVISIBLE);
             textField.setVisibility(View.INVISIBLE);
             tagDataText.setVisibility(View.VISIBLE);
             textLabel.setText("The tag says:");
             infoLabel.setText("Place the tag on the phone to read");
         } else {
             textField.setVisibility(View.VISIBLE);
+            formatTagBox.setVisibility(View.VISIBLE);
             tagDataText.setVisibility(View.INVISIBLE);
             textLabel.setText("Write to NFC tag here:");
             infoLabel.setText("Write to tag");
         }
+
+        formatTagBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (formatTagBox.isChecked()){
+                    textField.setEnabled(false);
+                    textField.setFocusable(false);
+                    textField.setVisibility(View.INVISIBLE);
+                    boxIsChecked = true;
+                    textLabel.setText("Place the tag to format");
+                } else {
+                    textField.setEnabled(true);
+                    textField.setFocusable(true);
+                    textField.setVisibility(View.VISIBLE);
+                    boxIsChecked = false;
+                    textLabel.setText("Write to NFC tag here:");
+
+
+                }
+
+            }
+        });
 
     }
 
@@ -174,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
             NdefFormatable ndefFormatable = NdefFormatable.get(tag);
 
             if (ndefFormatable == null) {
-                Toast.makeText(this, "Tag is not ndef formatable!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "This tag is not ndef formatable!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -197,14 +226,12 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Tag object cannot be null", Toast.LENGTH_SHORT).show();
                 return;
             }
-            System.out.println("Ndef.get(tag) 0: "+Ndef.get(tag));
-
             Ndef ndef = Ndef.get(tag);
-            System.out.println("Ndef.get(tag): "+Ndef.get(tag));
 
-            if (ndef == null) {
+            if (ndef == null || boxIsChecked) {
                 // format tag with the ndef format and writes the message.
                 formatTag(tag, ndefMessage);
+                System.out.println("TAG FORMATED, I THINK LOL");
             } else {
                 ndef.connect();
 
@@ -306,13 +333,14 @@ public class MainActivity extends AppCompatActivity {
         textField = findViewById(R.id.editTextContainer);
         tagDataText = findViewById(R.id.tagInformationView);
         scrollView = findViewById(R.id.scrollView);
-
+        formatTagBox = findViewById(R.id.formatTagBox);
         scrollView.post(new Runnable() {
             @Override
             public void run() {
                 scrollView.fullScroll(View.FOCUS_RIGHT);
             }
         });
+
 
 
     }
