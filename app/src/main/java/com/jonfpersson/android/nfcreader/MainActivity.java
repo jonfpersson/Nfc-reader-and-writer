@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         mode = getIntent().getIntExtra("messageMode", 0);
 
-        if (mode == 1){
+        if (mode == 1) {
             formatTagBox.setVisibility(View.INVISIBLE);
             textField.setVisibility(View.INVISIBLE);
             tagDataText.setVisibility(View.VISIBLE);
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         formatTagBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if (formatTagBox.isChecked()){
+                if (formatTagBox.isChecked()) {
                     textField.setEnabled(false);
                     textField.setFocusable(false);
                     textField.setVisibility(View.INVISIBLE);
@@ -117,28 +118,25 @@ public class MainActivity extends AppCompatActivity {
         if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
             //Toast.makeText(this, "NfcIntent!", Toast.LENGTH_SHORT).show();
 
-            if(mode == 1)
-            {
+            if (mode == 1) {
                 Parcelable[] parcelables = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
 
-                if(parcelables != null && parcelables.length > 0)
-                {
+                if (parcelables != null && parcelables.length > 0) {
                     readTextFromMessage((NdefMessage) parcelables[0]);
-                }else{
+                } else {
                     Toast.makeText(this, "No NDEF messages found!", Toast.LENGTH_SHORT).show();
                 }
 
-            }else{
+            } else {
 
                 try {
                     Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-                    NdefMessage ndefMessage = createNdefMessage(txtTagContent.getText()+"");
+                    NdefMessage ndefMessage = createNdefMessage(txtTagContent.getText() + "");
 
                     writeNdefMessage(tag, ndefMessage);
-                }
-                catch (NullPointerException E){
+                } catch (NullPointerException E) {
                     Toast.makeText(this, "Text to large!", Toast.LENGTH_SHORT).show();
-                    System.out.println("Exeption: "+E);
+                    System.out.println("Exeption: " + E);
                 }
 
             }
@@ -150,21 +148,20 @@ public class MainActivity extends AppCompatActivity {
 
         NdefRecord[] ndefRecords = ndefMessage.getRecords();
 
-        if(ndefRecords != null && ndefRecords.length>0){
+        if (ndefRecords != null && ndefRecords.length > 0) {
 
             NdefRecord ndefRecord = ndefRecords[0];
 
             String tagContent = getTextFromNdefRecord(ndefRecord);
 
-            tagDataText.setText(tagContent + "\r\n" );
+            tagDataText.setText(tagContent + "\r\n");
 
             boolean isContain = containsURL(tagContent);
             System.out.println("contain: " + isContain);
             if (isContain)
                 displayUrlDialog(tagContent);
 
-        }else
-        {
+        } else {
             Toast.makeText(this, "No NDEF records found!", Toast.LENGTH_SHORT).show();
         }
 
@@ -178,10 +175,9 @@ public class MainActivity extends AppCompatActivity {
 
         IntentFilter[] intentFilters = new IntentFilter[]{};
 
-        if(nfcAdapter==null)
-        {
+        if (nfcAdapter == null) {
             nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        } else{
+        } else {
             nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters, null);
         }
 
@@ -248,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-       } catch (Exception e) {
+        } catch (Exception e) {
             Toast.makeText(this, "Error: Hold tag still and try again", Toast.LENGTH_SHORT).show();
             // Log.e("writeNdefMessage", e.getMessage());
             System.out.println("Exeption: " + e);
@@ -288,8 +284,7 @@ public class MainActivity extends AppCompatActivity {
         return ndefMessage;
     }
 
-    public String getTextFromNdefRecord(NdefRecord ndefRecord)
-    {
+    public String getTextFromNdefRecord(NdefRecord ndefRecord) {
         String tagContent = null;
         try {
             byte[] payload = ndefRecord.getPayload();
@@ -302,7 +297,8 @@ public class MainActivity extends AppCompatActivity {
         }
         return tagContent;
     }
-    private void setColors(){
+
+    private void setColors() {
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#6b6aba")));
@@ -317,14 +313,14 @@ public class MainActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            window.setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.notiBar));
-        } else{
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.notiBar));
+        } else {
             // Cant set notificationbar color
         }
     }
 
-    void iniVariables(){
+    void iniVariables() {
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         txtTagContent = findViewById(R.id.txtTagContent);
         textLabel = findViewById(R.id.informationText);
@@ -341,10 +337,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
     }
 
-    void displayUrlDialog (final String url){
+    void displayUrlDialog(final String url) {
         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
         alertDialog.setTitle("Would you like to open this url?");
         alertDialog.setMessage(url);
@@ -354,7 +349,7 @@ public class MainActivity extends AppCompatActivity {
                         dialog.dismiss();
 
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        System.out.println("URL: "+url);
+                        System.out.println("URL: " + url);
                         startActivity(browserIntent);
 
                     }
@@ -372,11 +367,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private boolean containsURL(String content){
+    private boolean containsURL(String content) {
         String REGEX = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
-        Pattern p = Pattern.compile(REGEX,Pattern.CASE_INSENSITIVE);
+        Pattern p = Pattern.compile(REGEX, Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(content);
-        if(m.find()) {
+        if (m.find()) {
             return true;
         }
 

@@ -26,7 +26,6 @@ import com.kobakei.ratethisapp.RateThisApp;
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 
-
 public class MainMenu extends AppCompatActivity {
 
     @Override
@@ -60,20 +59,20 @@ public class MainMenu extends AppCompatActivity {
 
     }
 
-    public void startReadActivity (View v){
+    public void startReadActivity(View v) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("messageMode", 1);
         startActivity(intent);
     }
 
-    public void startWriteActivity (View v){
+    public void startWriteActivity(View v) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("messageMode", 2);
         startActivity(intent);
     }
 //    String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
-    private void setColors(){
+    private void setColors() {
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#6b6aba")));
@@ -88,9 +87,9 @@ public class MainMenu extends AppCompatActivity {
 
         // finally change the color
 
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            window.setStatusBarColor(ContextCompat.getColor(MainMenu.this,R.color.notiBar));
-        } else{
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(ContextCompat.getColor(MainMenu.this, R.color.notiBar));
+        } else {
             // Cant set notificationbar color
         }
 

@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#4543a8"
-    xmlns:android="http://schemas.android.com/apk/res/android"
->
+    android:background="#4543a8">
 
 
     <Button
@@ -15,10 +13,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="190dp"
         android:background="@drawable/btnstyle"
-        android:text="Read tag"
-        android:textColor="@color/colorPrimary"
         android:onClick="startReadActivity"
-        />
+        android:text="Read tag"
+        android:textColor="@color/colorPrimary" />
 
     <Button
         android:id="@+id/button"
@@ -38,13 +35,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/textLightPrimary"
         android:layout_marginTop="40dp"
         android:text="Choose one of \nthe modes to get started!"
+        android:textColor="@color/textLightPrimary"
         android:textSize="30sp"
 
         />
-
 
 
 </RelativeLayout>
