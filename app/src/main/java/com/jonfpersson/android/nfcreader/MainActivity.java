@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
 
     int mode;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
